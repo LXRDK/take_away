@@ -4,6 +4,6 @@ import React from "react";
 export default function _Layout() {
   const isAuthenticated = false; // Replace with actual authentication logic
   if (!isAuthenticated) return <Redirect href="/sign-in" />;
-  if (isAuthenticated) return <Redirect href="/(tabs)/index" />;
+
   return <Slot />;
 }
