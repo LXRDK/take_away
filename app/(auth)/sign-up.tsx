@@ -1,21 +1,33 @@
 import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
+import { createUser } from "@/lib/appwrite";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Text, View } from "react-native";
 
 export default function SignUp() {
   const [isSubmitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+  });
   const submit = async () => {
-    if (!form.email || !form.password || !form.name) {
+    const { name, email, password, phone } = form;
+    if (!form.email || !form.password || !form.name || !form.phone) {
       return Alert.alert("error", "Please fill all fields");
     }
     setSubmitting(true);
     try {
       //Call Appwrite signiup function
+      await createUser({
+        email,
+        password,
+        name,
+        phone,
+      });
 
-      Alert.alert("Success", "You have signed Up successfully");
       router.replace("/");
     } catch (error: any) {
       Alert.alert("Error", error.message || "Something went wrong");
@@ -40,6 +52,14 @@ export default function SignUp() {
         keyboardType="email-address"
         onChangeText={(text) => {
           setForm((prev) => ({ ...prev, email: text }));
+        }}
+      />
+      <CustomInput
+        placeholder="(09/07)12345678"
+        value={form.phone}
+        label="Phone Number"
+        onChangeText={(text) => {
+          setForm((prev) => ({ ...prev, phone: text }));
         }}
       />
       <CustomInput

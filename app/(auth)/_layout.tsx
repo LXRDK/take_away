@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 
-export default function _Layout() {
+export default function AuthLayout() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
