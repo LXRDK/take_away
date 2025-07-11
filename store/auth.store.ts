@@ -11,10 +11,11 @@ type AuthState = {
   setLoading: (loading: boolean) => void;
   fetchAuthenticatedUser: () => Promise<void>;
 };
-const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   user: null,
   isLoading: true,
+
   setIsAuthenticated: (value: boolean) => set({ isAuthenticated: value }),
   setUser: (user: User | null) => set({ user }),
   setLoading: (value) => set({ isLoading: value }),
@@ -23,6 +24,7 @@ const useAuthStore = create<AuthState>((set) => ({
     try {
       const user = await getCurrentUser();
       if (user) set({ isAuthenticated: true, user: user as User });
+      else set({ isAuthenticated: false, user: null });
     } catch (error) {
       console.log("fetchAuthUser Error", error);
       set({ isAuthenticated: false, user: null });
